@@ -2,22 +2,22 @@
 
 import requests
 
-# OpenWeatherMap API anahtarınızı buraya ekleyin
-API_KEY = "bb8306c119de14cfbc40137c5e13f0de"
+# OpenWeatherMap API
+API_KEY = "Secret_KEy"
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
 
 def get_weather(city):
     try:
-        # API'ya istek gönder
+        # Send Request to API
         params = {
             'q': city,
             'appid': API_KEY,
-            'units': 'metric'  # Celcius derecesinde sıcaklık için
+            'units': 'metric'  # For Celsius
         }
         response = requests.get(BASE_URL, params=params)
         data = response.json()
 
-        # API isteğinin başarılı olup olmadığını kontrol et
+        # Check if API Request is Successful
         if response.status_code == 200:
             main = data['main']
             weather = data['weather'][0]
@@ -28,7 +28,7 @@ def get_weather(city):
             description = weather['description']
             wind_speed = wind['speed']
 
-            # Hava durumu bilgisini yazdır
+            # Weather Condition
             print(f"\n{city} Hava Durumu:")
             print(f"Sıcaklık: {temp}°C")
             print(f"Hissedilen Sıcaklık: {feels_like}°C")
@@ -36,25 +36,25 @@ def get_weather(city):
             print(f"Rüzgar Hızı: {wind_speed} m/s")
             print(f"Açıklama: {description.capitalize()}")
         else:
-            # Hata durumunda API yanıtını ve hata mesajını yazdır
+            # Unknown Error for API
             print(f"Şehir bulunamadı: {city}")
             print(f"Hata kodu: {response.status_code}")
-            print(f"Hata mesajı: {data.get('message', 'Bilinmeyen hata')}")
+            print(f"Hata mesajı: {data.get('message', 'Unknown Error')}")
     except requests.exceptions.RequestException as e:
-        print(f"API isteği sırasında bir hata oluştu: {e}")
+        print(f"An error occurred during the API request: {e}")
 
 def main():
     while True:
-        city = input("\nHava durumunu öğrenmek istediğiniz şehir: ")
+        city = input("\nThe city where you want to know the weather: ")
         if not city.strip():
-            print("Geçersiz giriş. Lütfen geçerli bir şehir adı girin.")
+            print("Invalid login. Please enter a valid city name.")
             continue
         get_weather(city)
         
-        # Başka bir şehir için sorgu yapmak isteyip istemediğini sor
-        again = input("\nBaşka bir şehir için hava durumu sorgulamak ister misiniz? (E/H): ")
-        if again.strip().lower() != 'e':
-            print("Hava durumu uygulamasını kullandığınız için teşekkürler!")
+        # Ask if you want to query for another city
+        again = input("\nWould you like to query the weather forecast for another city? (Y/N): ")
+        if again.strip().lower() != 'y':
+            print("Thanks for using the weather app!")
             break
 
 if __name__ == "__main__":
