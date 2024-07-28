@@ -1,2 +1,2 @@
 # Weather App in Python
-I weather in python needs more to say?
+Weather in python needs more to say?
